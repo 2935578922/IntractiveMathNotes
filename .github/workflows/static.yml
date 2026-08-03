@@ -34,7 +34,7 @@ jobs:
 
     # 4. 发布Blazor WebAssembly项目
     - name: Publish Blazor WebAssembly
-      run: dotnet publish MathNotes.csproj -c Release -o release --nologo
+      run: dotnet publish MathNotes/MathNotes.csproj -c Release -o release --nologo
       # 将 YourBlazorProject.csproj 替换为你的项目文件路径
 
     # 5. 处理发布文件（添加.nojekyll和调整路径）
