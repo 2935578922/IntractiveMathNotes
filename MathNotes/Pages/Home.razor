@@ -5,30 +5,116 @@
 
 <PageTitle>笔记本</PageTitle>
 
-<div class="paper" style="left:50dvw; top:50dvh; 
-    transform:translate(-50%,-50%) scale(@PaperScale);">
-
+<div class="paper" style="display:inline-block;
+    left:50dvw; top:50dvh; 
+    transform:translate(-50%,-50%) scale(@PaperScale);
+    animation:initializing 500ms ease forwards;">
+    <div style="position:absolute; left:6px; top:-1px; width:@(TitleWidth)px; height:@(TitleHeight)px;
+        @TitleInitializingAnimation
+        background-color:#004D3D">
+    </div>
+    <div id="T" style="writing-mode:vertical-lr; text-orientation:mixed;
+        @TitleTextInitializingAnimation
+        position:absolute; top:5px; left:6px;">
+        <div class="title" style="writing-mode:vertical-lr; text-orientation:mixed; line-height:16px;">
+            目录
+        </div>
+        <div class="small-title" style="writing-mode:vertical-lr; text-orientation:mixed;">
+            TabeloDeEnhavo
+        </div>
+    </div>
+    <div style="position:absolute; left:12px; top:@(TitleHeight+5)px;">
+        <div style="font-size:10px;">
+            <span style="display:inline-block; @ContentsInitializingAnimations[0]">
+                壹&ensp;&ensp;<a>「十字相乘法」</a>
+            </span><br />
+            <span style="display:inline-block; @ContentsInitializingAnimations[1]">
+                贰&ensp;&ensp;<a>「分式与运算」</a>
+            </span><br />
+            <span style="display:inline-block; @ContentsInitializingAnimations[2]">
+                叁&ensp;&ensp;<a>「根式与运算」</a>
+            </span><br />
+            <span style="display:inline-block; @ContentsInitializingAnimations[3]">
+                肆&ensp;&ensp;<a>「二元二次方程组」</a>
+            </span><br />
+            <span style="display:inline-block; @ContentsInitializingAnimations[4]">
+                伍&ensp;&ensp;<a>「平行线分线段成比例」</a>
+            </span>
+        </div>
+    </div>
 </div>
 <script>
     window.jsf={
         GetWindowSize:function(){
             return [window.innerWidth,window.innerHeight];
+        },
+
+        GetElementSize:function(id){
+            const e=document.getElementById(id);
+            return [e.clientWidth,e.clientHeight];
         }
     };
 </script>
 
+<style>
+    @@keyframes initializing {
+        from {
+            opacity:0;
+            transform:translate(0%,-50%) scale(@PaperScale);
+        }
+        to {
+            opacity:1;
+            transform:translate(-50%,-50%) scale(@PaperScale);
+        }
+    }
+    @@keyframes initializing1 {
+        from {
+            opacity:0;
+            transform:translate(10px);
+        }
+        to {
+            opacity:1;
+            transform:translate(0px);
+        }
+    }
+</style>
+
 @code {
     double PaperScale=1;
+    
+    double TitleHeight=0;
+    double TitleWidth=0;
+
+    string TitleInitializingAnimation="opacity:0;";
+    string TitleTextInitializingAnimation="opacity:0;";
+    string[] ContentsInitializingAnimations=new string[]
+    {
+        "opacity:0;",
+        "opacity:0;",
+        "opacity:0;",
+        "opacity:0;",
+        "opacity:0;"
+    };
 
     async Task<int[]> GetWindowSize()
     {
         int[] WindowSize=await JS.InvokeAsync<int[]>("jsf.GetWindowSize");
         return WindowSize;
     } 
+    async Task<int[]> GetElementSize(string id)
+    {
+        int[] ElementSize=await JS.InvokeAsync<int[]>("jsf.GetElementSize",id);
+        return ElementSize;
+    }
+
     override protected async Task OnAfterRenderAsync(bool render)
     {
         if(render)
         {
+            int[] TitleSize=await GetElementSize("T");
+            TitleHeight=TitleSize[1]+7;
+            TitleWidth=TitleSize[0];
+
             int[] WindowSize=await GetWindowSize();
             PaperScale=(double)WindowSize[1]/297;
             if(PaperScale*210>WindowSize[0])
@@ -39,6 +125,19 @@
             }
             PaperScale*=0.9;
             StateHasChanged();
+            await Task.Delay(500);
+            TitleInitializingAnimation="animation:initializing1 500ms ease forwards;";
+            StateHasChanged();
+            await Task.Delay(250);
+            TitleTextInitializingAnimation="animation:initializing1 250ms ease forwards;";
+            StateHasChanged();
+            await Task.Delay(150);
+            for(int i=0;i<5;i+=1)
+            {
+                await Task.Delay(100);
+                ContentsInitializingAnimations[i]="animation:initializing1 250ms ease forwards;";
+                StateHasChanged();
+            }
         }
     }
 }
