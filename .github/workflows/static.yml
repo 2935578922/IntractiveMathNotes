@@ -49,8 +49,8 @@ jobs:
         # 如果是子路径部署，需要修改base href
         # 例如：如果你的仓库名为 my-blazor-app，访问地址为 username.github.io/my-blazor-app
         # 取消下面注释并替换为你的仓库名
-        sed -i 's/<base href="\/" \/>/<base href="\/MathNotes\/" \/>/g' index.html
-        sed -i 's/<base href="\/" \/>/<base href="\/MathNotes\/" \/>/g' 404.html
+        sed -i 's/<base href="\/" \/>/<base href="\/IntractiveMathNotes\/" \/>/g' index.html
+        sed -i 's/<base href="\/" \/>/<base href="\/IntractiveMathNotes\/" \/>/g' 404.html
 
     # 6. 部署到GitHub Pages
     - name: Deploy to GitHub Pages
