@@ -28,6 +28,46 @@ a:active {
     transform:translate(10px) scale(0.8);
 }
 
+.btn1 {
+    /*position: absolute;*/
+    display:inline-block;
+    transition:opacity 200ms ease, background-color 100ms ease-out;
+    text-align:center;
+    /*padding: 0 0.7vh 0 0.7vh;
+    margin-bottom: 1.6vh;*/
+    cursor:pointer;
+    color:#006c56; /*#008066*/
+    background-color:#004d3d;
+    border:none;
+    font-size:8px;
+    font-family:Ubuntu;
+}
+.btn1:hover {
+    background-color:#003328;
+}
+.btn1:active {
+    opacity:0.5;
+}
+
+.fold {
+    overflow:hidden;
+    transition:height 500ms ease;
+}
+.fold::-webkit-scrollbar {
+    width:5px;
+    height:auto;
+    background-color:#004D3D;
+}
+.fold::-webkit-scrollbar-thumb {
+    background-color:#003328;
+}
+@supports (-moz-appearance:none) {
+    .fold {
+        scrollbar-width:thin;
+        scrollbar-color:#004D3D #003328;
+    }
+}
+
 .paper {
     position:absolute;
     width:210px;

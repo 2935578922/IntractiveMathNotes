@@ -1,3 +1,133 @@
 @page "/1"
+@using Microsoft.AspNetCore.Components.Sections
 @inject IJSRuntime JS
 
+<div class="paper" style="display:inline-block;
+  left:50dvw; top:50dvh;
+  transform:translate(-50%,-50%) scale(@Home.PaperScale);">
+    <div style="position:absolute; top:8px; left:8px;">
+        <div font-size:18px;>十字相乘</div>
+    </div>
+    <div style="position:absolute; top:28px; left:11px;">
+        <div style="font-size:8px; width:188px;">
+            十字相乘法，一种用于<b>因式分解二次三项式</b>的方法，常用于解方程。<br />
+            然而为何称为<b>十字</b>?<br />
+            <div style="text-align:center;">
+                <button @onclick="()=>Fold1.Show()" class="btn1">为什么</button>
+            </div>
+            <div class="fold" style="wdith:@(Fold1.Width)px; height:@(Fold1.Height)px; overflow:@Fold1.OverflowStyle;">
+                <div style="text-align:center;">
+                    <img src="./1/1.svg" />
+                </div>
+                图示为
+                <math math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <mo>(</mo><mn>x</mn><mo>+</mo><mn>n</mn><mo>)</mo><mo>(</mo><mn>x</mn><mo>+</mo><mn>m</mn><mo>)</mo>
+                    <mo>=</mo>
+                    <msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><mo>(</mo><mn>n</mn><mo>+</mo><mn>m</mn><mo>)</mo><mn>x</mn><mo>+</mo><mn>nm</mn>
+                </math>
+                的十字相乘法，其中可以看到<b>有个十字×</b>，这正是十字相乘法的<b>名字来源</b>。<br />
+                其中<b>左右两侧</b>的x和x相乘，n和m相乘，得到了式子中的<b>第1项和第3项</b>，而中间则是十字<b>两线分别两端相乘
+                积的和</b>得到了<b>第二项</b>，合并就是(n+m)x。最后全部相加，就是上方的式子。
+            </div>
+        </div>
+    </div>
+    <div style="position:absolute; left:50%; bottom:3.5px; transform:translate(-50%,0%)">
+        <button @onclick="BackPage" class="btn1" style="padding:0px 2px;">←</button>
+        <span style="width:8px; font-size:7px;">@Page</span>
+        <button @onclick="NextPage" class="btn1" style="padding:0px 2px;">→</button>
+    </div>
+    
+</div>
+
+<script>
+    window.jsf={
+        GetWindowSize:function(){
+            return [window.innerWidth,window.innerHeight];
+        },
+
+        GetElementSize:function(id){
+            const e=document.getElementById(id);
+            return [e.clientWidth,e.clientHeight];
+        }
+    };
+</script>
+
+@code {
+    FoldFrame Fold1=new FoldFrame(188,0,200);
+
+    int MaxPage=5;
+    int Page=1;
+    int MinPage=1;
+
+    async Task<int[]> GetWindowSize()
+    {
+        int[] WindowSize=await JS.InvokeAsync<int[]>("jsf.GetWindowSize");
+        return WindowSize;
+    } 
+    async Task<int[]> GetElementSize(string id)
+    {
+        int[] ElementSize=await JS.InvokeAsync<int[]>("jsf.GetElementSize",id);
+        return ElementSize;
+    }
+
+    void NextPage()
+    {
+        if(Page<MaxPage)
+        {
+            Page+=1;
+        }
+    }
+    void BackPage()
+    {
+        if(Page>MinPage)
+        {
+            Page-=1;
+        }
+    }
+
+    override protected async Task OnAfterRenderAsync(bool render)
+    {
+        if(render)
+        {
+            FoldFrame.StateChangedEvent+=StateHasChanged;
+            int[] WindowSize=await GetWindowSize();
+            Home.PaperScale=(double)WindowSize[1]/297;
+            if(Home.PaperScale*210>WindowSize[0])
+            {
+                int TempPaperWidth=WindowSize[0];
+                double TempPaperHeight=297.0/210*TempPaperWidth;
+                Home.PaperScale=WindowSize[1]/TempPaperHeight;
+            }
+            Home.PaperScale*=0.9;
+            StateHasChanged();
+        }
+    }
+
+    struct FoldFrame
+    {
+        public static event Action? StateChangedEvent;
+
+        public int Width;
+        public int Height;
+
+        public string OverflowStyle="hidden";
+        
+        private int EndHeight;
+
+        private void ChangeState()=>StateChangedEvent?.Invoke();
+
+        public FoldFrame(int width=0,int height=0,int endheight=0)
+        {
+            Width=width;
+            Height=height;
+            EndHeight=endheight;
+        }
+
+        public void Show()
+        {
+            Height=EndHeight;
+            OverflowStyle="auto";
+            ChangeState();
+        }
+    }
+}

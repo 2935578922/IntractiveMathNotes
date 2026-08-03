@@ -25,7 +25,8 @@
     </div>
     <div style="position:absolute; left:12px; top:@(TitleHeight+5)px;">
         <div style="font-size:10px;">
-            <span style="display:inline-block; @ContentsInitializingAnimations[0]">
+            <span @onclick="()=>GoToNote(1)"
+              style="display:inline-block; @ContentsInitializingAnimations[0]">
                 壹&ensp;&ensp;<a>「十字相乘法」</a>
             </span><br />
             <span style="display:inline-block; @ContentsInitializingAnimations[1]">
@@ -80,7 +81,7 @@
 </style>
 
 @code {
-    double PaperScale=1;
+    public static double PaperScale=1;
     
     double TitleHeight=0;
     double TitleWidth=0;
@@ -105,6 +106,30 @@
     {
         int[] ElementSize=await JS.InvokeAsync<int[]>("jsf.GetElementSize",id);
         return ElementSize;
+    }
+
+    async Task GoToNote(int id)
+    {
+        TitleTextInitializingAnimation="opacity:1; transform:translate(0px);";
+        TitleInitializingAnimation="opacity:1; transform:translate(0px);";
+        for(int i=0;i<5;i+=1)
+        {
+            ContentsInitializingAnimations[i]="opacity:1; transform:translate(0px);";
+        }
+        for(int i=0;i<5;i+=1)
+        {
+            await Task.Delay(100);
+            ContentsInitializingAnimations[i]=@"animation:initializing1 250ms ease forwards reverse;";
+            StateHasChanged();
+        }
+        await Task.Delay(150);
+        TitleTextInitializingAnimation="animation:initializing1 250ms ease forwards reverse;";
+        StateHasChanged();
+        await Task.Delay(250);
+        TitleInitializingAnimation="animation:initializing1 500ms ease forwards reverse;";
+        StateHasChanged();
+        await Task.Delay(500);
+        Nav.NavigateTo("/1");
     }
 
     override protected async Task OnAfterRenderAsync(bool render)
