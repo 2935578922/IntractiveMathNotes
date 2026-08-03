@@ -1,0 +1,44 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.Components.Sections
+@inject IJSRuntime JS
+@inject NavigationManager Nav
+
+<PageTitle>笔记本</PageTitle>
+
+<div class="paper" style="left:50dvw; top:50dvh; 
+    transform:translate(-50%,-50%) scale(@PaperScale);">
+
+</div>
+<script>
+    window.jsf={
+        GetWindowSize:function(){
+            return [window.innerWidth,window.innerHeight];
+        }
+    };
+</script>
+
+@code {
+    double PaperScale=1;
+
+    async Task<int[]> GetWindowSize()
+    {
+        int[] WindowSize=await JS.InvokeAsync<int[]>("jsf.GetWindowSize");
+        return WindowSize;
+    } 
+    override protected async Task OnAfterRenderAsync(bool render)
+    {
+        if(render)
+        {
+            int[] WindowSize=await GetWindowSize();
+            PaperScale=(double)WindowSize[1]/297;
+            if(PaperScale*210>WindowSize[0])
+            {
+                int TempPaperWidth=WindowSize[0];
+                double TempPaperHeight=297.0/210*TempPaperWidth;
+                PaperScale=WindowSize[1]/TempPaperHeight;
+            }
+            PaperScale*=0.9;
+            StateHasChanged();
+        }
+    }
+}

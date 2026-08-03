@@ -1,0 +1,11 @@
+body {
+    background-color:#004d3d;
+}
+
+.paper {
+    position:absolute;
+    width:210px;
+    Height:297px;
+    transform-origin:center center;
+    background-color:#006c56;
+}
