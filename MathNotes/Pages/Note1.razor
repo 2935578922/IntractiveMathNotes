@@ -1,14 +1,16 @@
 @page "/1"
 @using Microsoft.AspNetCore.Components.Sections
+@using System.Text;
 @inject IJSRuntime JS
 
 <div class="paper" style="display:inline-block;
   left:50dvw; top:50dvh;
   transform:translate(-50%,-50%) scale(@Home.PaperScale);">
     <div style="position:absolute; top:8px; left:8px;">
-        <div font-size:18px;>十字相乘</div>
+        <div style="animation:initializing 500ms ease forwards;">十字相乘</div>
     </div>
-    <div style="position:absolute; top:28px; left:11px;">
+    @if(Page==1){
+    <div style="position:absolute; top:28px; left:11px; @TextsAnimation">
         <div style="font-size:8px; width:188px;">
             十字相乘法，一种用于<b>因式分解二次三项式</b>的方法，常用于解方程。<br />
             然而为何称为<b>十字</b>?<br />
@@ -17,7 +19,7 @@
             </div>
             <div class="fold" style="wdith:@(Fold1.Width)px; height:@(Fold1.Height)px; overflow:@Fold1.OverflowStyle;">
                 <div style="text-align:center;">
-                    <img src="./1/1.svg" />
+                    <img src="./1/2.svg" />
                 </div>
                 图示为
                 <math math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -31,12 +33,37 @@
             </div>
         </div>
     </div>
-    <div style="position:absolute; left:50%; bottom:3.5px; transform:translate(-50%,0%)">
+    }
+    else if(Page==2){
+    <div style="position:absolute; top:28px; left:11px; @TextsAnimation">
+        <div style="font-size:8px; width:188px;">
+            然而，十字相乘法怎么分解式子呢，让我们来看看。<br />
+            <div style="text-align:center;">
+                <img src="./1/1.svg" />
+                <input @bind-value="Page2n" type="text" class="input" style="position:absolute; right:40px; top:35px; text-align:center;" />
+                <input @bind-value="Page2m" type="text" class="input" style="position:absolute; right:40px; bottom:23px; text-align:center;" />
+                <span style="position:absolute; right:30px; top:81px;">@(Page2n*Page2m)</span>
+                <span style="position:absolute; left:30px; top:81px;">x<sup>2</sup></span>
+                <div style="position:absolute; transform:translate(-50%); bottom:-10px; left:50%; ">
+                    <div>
+                        1:&ensp;@Formula1.OutputFormula
+                    </div>
+                    <div>
+                        2:&ensp;x<sup>2</sup>+@(Page2n+Page2m)x+@(Page2n*Page2m)
+                    </div>
+                    <div>
+                        3:&ensp;(x+@Page2n)(x+@Page2m)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    <div style="position:absolute; left:50%; bottom:0.75px; transform:translate(-50%,0%);">
         <button @onclick="BackPage" class="btn1" style="padding:0px 2px;">←</button>
         <span style="width:8px; font-size:7px;">@Page</span>
         <button @onclick="NextPage" class="btn1" style="padding:0px 2px;">→</button>
     </div>
-    
 </div>
 
 <script>
@@ -52,12 +79,56 @@
     };
 </script>
 
+<style>
+    @@keyframes initializing {
+        from {
+            opacity:0;
+            transform:translate(10px);
+        }
+        to {
+            opacity:1;
+            transform:translate(0px);
+        }
+    }
+</style>
+
 @code {
     FoldFrame Fold1=new FoldFrame(188,0,200);
 
     int MaxPage=5;
     int Page=1;
     int MinPage=1;
+
+    int Page2nValue=0;
+    int Page2n
+    {
+        get
+        {
+            return Page2nValue;
+        }
+        set
+        {
+            Page2nValue=value;
+            Formula1.InputFormula=$"x<sup>2</sup>+({Page2nValue}+{Page2mValue})x+{Page2nValue*Page2mValue}";
+        }
+    }
+    int Page2mValue=0;
+    int Page2m
+    {
+        get
+        {
+            return Page2mValue;
+        }
+        set
+        {
+            Page2mValue=value;
+            Formula1.InputFormula=$"x<sup>2</sup>+({Page2nValue}+{Page2mValue})x+{Page2nValue*Page2mValue}";
+        }
+    }
+    HtmlFormula Formula1=new HtmlFormula();
+
+    string TextsAnimation="opacity:0;";
+    bool PaperControllerCanTouch=true;
 
     async Task<int[]> GetWindowSize()
     {
@@ -70,18 +141,40 @@
         return ElementSize;
     }
 
-    void NextPage()
+    async Task NextPage()
     {
-        if(Page<MaxPage)
+        if(Page<MaxPage && PaperControllerCanTouch)
         {
+            PaperControllerCanTouch=false;
+            TextsAnimation="opacity:1; transform:translate(0px);";
+            StateHasChanged();
+            await Task.Delay(250);
+            TextsAnimation="animation:initializing 250ms ease forwards reverse;";
+            StateHasChanged();
+            await Task.Delay(250);
             Page+=1;
+            TextsAnimation="animation:initializing 250ms ease forwards;";
+            await Task.Delay(250);
+            StateHasChanged();
+            PaperControllerCanTouch=true;
         }
     }
-    void BackPage()
+    async Task BackPage()
     {
-        if(Page>MinPage)
+        if(Page>MinPage && PaperControllerCanTouch)
         {
+            PaperControllerCanTouch=false;
+            TextsAnimation="opacity:1; transform:translate(0px);";
+            StateHasChanged();
+            await Task.Delay(250);
+            TextsAnimation="animation:initializing 250ms ease forwards reverse;";
+            StateHasChanged();
+            await Task.Delay(250);
             Page-=1;
+            TextsAnimation="animation:initializing 250ms ease forwards;";
+            await Task.Delay(250);
+            StateHasChanged();
+            PaperControllerCanTouch=true;
         }
     }
 
@@ -100,10 +193,13 @@
             }
             Home.PaperScale*=0.9;
             StateHasChanged();
+            await Task.Delay(250);
+            TextsAnimation="animation:initializing 500ms ease forwards;";
+            StateHasChanged();
         }
     }
 
-    struct FoldFrame
+    class FoldFrame
     {
         public static event Action? StateChangedEvent;
 
@@ -128,6 +224,30 @@
             Height=EndHeight;
             OverflowStyle="auto";
             ChangeState();
+        }
+    }
+
+    class HtmlFormula 
+    {
+        public MarkupString OutputFormula=(MarkupString)"";
+
+        public string InputFormula
+        {
+            get 
+            {
+                return "";
+            }
+            set
+            {
+                string temp=value;
+                temp=temp.Replace("+-","-");
+                OutputFormula=(MarkupString)temp;
+            }
+        }
+
+        public HtmlFormula()
+        {
+
         }
     }
 }
