@@ -37,24 +37,60 @@
     else if(Page==2){
     <div style="position:absolute; top:28px; left:11px; @TextsAnimation">
         <div style="font-size:8px; width:188px;">
-            然而，十字相乘法怎么分解式子呢，让我们来看看。<br />
+            然而，十字相乘法怎么分解式子呢，让我们来看看。你可以点输入框进行尝试<br />
             <div style="text-align:center;">
-                <img src="./1/1.svg" />
-                <input @bind-value="Page2n" type="text" class="input" style="position:absolute; right:40px; top:35px; text-align:center;" />
+                <img src="./1/1.svg" style="height:150px;"/>
+                <input @bind-value="Page2n" type="text" class="input" style="position:absolute; right:40px; top:47px; text-align:center;" />
                 <input @bind-value="Page2m" type="text" class="input" style="position:absolute; right:40px; bottom:23px; text-align:center;" />
-                <span style="position:absolute; right:30px; top:81px;">@(Page2n*Page2m)</span>
-                <span style="position:absolute; left:30px; top:81px;">x<sup>2</sup></span>
-                <div style="position:absolute; transform:translate(-50%); bottom:-10px; left:50%; ">
+                <span style="position:absolute; right:30px; top:93px;">@(Page2n*Page2m)</span>
+                <span style="position:absolute; left:30px; top:93px;">x<sup>2</sup></span>
+                <div style="position:absolute; transform:translate(-50%); bottom:-17px; left:50%; ">
                     <div>
                         1:&ensp;@Formula1.OutputFormula
                     </div>
                     <div>
-                        2:&ensp;x<sup>2</sup>+@(Page2n+Page2m)x+@(Page2n*Page2m)
+                        2:&ensp;@Formula2.OutputFormula
                     </div>
                     <div>
-                        3:&ensp;(x+@Page2n)(x+@Page2m)
+                        3:&ensp;@Formula3.OutputFormula
                     </div>
                 </div>
+            </div>
+            <div style="position:absolute; bottom:-67px; height:50px; ">
+                经过数次尝试，可以发现，我们要把2式的第2项进行拆解，最后相乘，结果如果等于第3项，才是最后分解出来的结果。
+                在<b>解方程时</b>，可以分解为整数的式子可以通过<b>尝试</b>和<b>直觉</b>快速分解。然而有时只是分解式子时，
+                <b>数字很大</b>或实际<b>最终结果非整数</b>时，[下一页]
+            </div>
+        </div>
+    </div>
+    }
+    else if(Page==3){
+    <div style="position:absolute; top:28px; left:11px; @TextsAnimation">
+        <div style="font-size:8px; width:188px;">
+            我们就只能换种分解方法了。让我们看看怎么用<b>数学的方法</b>分解。
+            既然
+            <div style="text-align:center;">
+                <math math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <mo>(</mo><mn>x</mn><mo>+</mo><mn>n</mn><mo>)</mo><mo>(</mo><mn>x</mn><mo>+</mo><mn>m</mn><mo>)</mo>
+                    <mo>=</mo>
+                    <msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><mo>(</mo><mn>n</mn><mo>+</mo><mn>m</mn><mo>)</mo><mn>x</mn><mo>+</mo><mn>nm</mn>
+                </math>
+            </div>
+            我们设n+m=a, nm=b来表示(x+n)(x+m)<b>被分解前的式子的样子</b>：
+            <div style="text-align:center;">
+                <math math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><mn>ax</mn><mo>+</mo><mn>b</mn>
+                </math>
+            </div>
+            我们可以设一个n，其中n为<b>分解后的两个数之一</b>，既然两数相乘为b，那么另一个数的就是
+            <math>
+                <mfrac><mn>b</mn><mn>n</mn></mfrac>
+            </math><br />。
+            然后由于<b>a由这两数相加得到</b>，最后我们可以得到一个等量关系式：
+            <div style="text-align:center;">
+                <math>
+                    <mn>n</mn><mo>+</mo><mfrac><mn>b</mn><mn>n</mn></mfrac><mo>=</mo><mn>a</mn>
+                </math>
             </div>
         </div>
     </div>
@@ -110,6 +146,8 @@
         {
             Page2nValue=value;
             Formula1.InputFormula=$"x<sup>2</sup>+({Page2nValue}+{Page2mValue})x+{Page2nValue*Page2mValue}";
+            Formula2.InputFormula=$"x<sup>2</sup>+{Page2n+Page2m}x+{Page2n*Page2m}";
+            Formula3.InputFormula=$"(x+{Page2n})(x+{Page2m})";
         }
     }
     int Page2mValue=0;
@@ -123,9 +161,13 @@
         {
             Page2mValue=value;
             Formula1.InputFormula=$"x<sup>2</sup>+({Page2nValue}+{Page2mValue})x+{Page2nValue*Page2mValue}";
+            Formula2.InputFormula=$"x<sup>2</sup>+{Page2n+Page2m}x+{Page2n*Page2m}";
+            Formula3.InputFormula=$"(x+{Page2n})(x+{Page2m})";
         }
     }
     HtmlFormula Formula1=new HtmlFormula();
+    HtmlFormula Formula2=new HtmlFormula();
+    HtmlFormula Formula3=new HtmlFormula();
 
     string TextsAnimation="opacity:0;";
     bool PaperControllerCanTouch=true;
@@ -182,6 +224,8 @@
     {
         if(render)
         {
+            Page2n=-1;
+            Page2m=-4;
             FoldFrame.StateChangedEvent+=StateHasChanged;
             int[] WindowSize=await GetWindowSize();
             Home.PaperScale=(double)WindowSize[1]/297;
