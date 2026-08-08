@@ -1,6 +1,8 @@
 @page "/1"
+@using MathNotes.Pages.formulas
 @using Microsoft.AspNetCore.Components.Sections
-@using System.Text;
+@using System.Text
+@using formulas
 @inject IJSRuntime JS
 
 <div class="paper" style="display:inline-block;
@@ -66,7 +68,7 @@
     }
     else if(Page==3){
     <div style="position:absolute; top:28px; left:11px; @TextsAnimation">
-        <div style="font-size:8px; width:188px;">
+        <div style="font-size:8px; width:188px; height:258px;">
             我们就只能换种分解方法了。让我们看看怎么用<b>数学的方法</b>分解。
             既然
             <div style="text-align:center;">
@@ -92,7 +94,8 @@
                     <mn>n</mn><mo>+</mo><mfrac><mn>b</mn><mn>n</mn></mfrac><mo>=</mo><mn>a</mn>
                 </math>
             </div>
-            变换一下
+            <button @onclick="()=>Fml1?.RunTransform()" class="btn1">变换一下</button>
+            <Formula1 @ref="Fml1"></Formula1>
         </div>
     </div>
     }
@@ -112,9 +115,12 @@
         GetElementSize:function(id){
             const e=document.getElementById(id);
             return [e.clientWidth,e.clientHeight];
-        }
+        },
+
+        
     };
 </script>
+
 
 <style>
     @@keyframes initializing {
@@ -131,6 +137,8 @@
 
 @code {
     FoldFrame Fold1=new FoldFrame(188,0,200);
+
+    Formula1? Fml1;
 
     int MaxPage=5;
     int Page=1;
@@ -171,6 +179,7 @@
     HtmlFormula Formula3=new HtmlFormula();
 
     string TextsAnimation="opacity:0;";
+
     bool PaperControllerCanTouch=true;
 
     async Task<int[]> GetWindowSize()
@@ -182,6 +191,10 @@
     {
         int[] ElementSize=await JS.InvokeAsync<int[]>("jsf.GetElementSize",id);
         return ElementSize;
+    }
+    async Task RunManim1()
+    {
+        //await JS.InvokeVoidAsync("jsf.RunManim1");
     }
 
     async Task NextPage()
@@ -242,6 +255,11 @@
             TextsAnimation="animation:initializing 500ms ease forwards;";
             StateHasChanged();
         }
+    }
+
+    public async Task DisposeAsync()
+    {
+        
     }
 
     class FoldFrame
