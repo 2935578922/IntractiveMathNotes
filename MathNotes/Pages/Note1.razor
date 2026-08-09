@@ -87,7 +87,7 @@
             我们可以设一个n，其中n为<b>分解后的两个数之一</b>，既然两数相乘为b，那么另一个数的就是
             <math>
                 <mfrac><mn>b</mn><mn>n</mn></mfrac>
-            </math><br />。
+            </math>。<br />
             然后由于<b>a由这两数相加得到</b>，最后我们可以得到一个等量关系式：
             <div style="text-align:center;">
                 <math>
@@ -96,6 +96,23 @@
             </div>
             <button @onclick="()=>Fml1?.RunTransform()" class="btn1">变换一下</button>
             <Formula1 @ref="Fml1"></Formula1>
+        </div>
+    </div>
+    }
+    else if(Page==4)
+    {
+    <div style="position:absolute; top:28px; left:11px; @TextsAnimation">
+        <div style="font-size:8px; width:188px;">
+            解:
+            <div style="text-align:center;">
+                <math math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <msup><mi>n</mi><mn>2</mn></msup><mo>-</mo><mn>an</mn><mo>+</mo><mn>b</mn><mo>=</mo><mn>0</mn>
+                </math>
+            </div>
+            <div style="text-align:center;">
+                x<sub>1</sub>=<input @bind-value="Page2n" type="text" class="input" style="text-align:center; margin-bottom:4px;" />,<br />
+                x<sub>2</sub>=<input @bind-value="Page2n" type="text" class="input" style="text-align:center;" />
+            </div>
         </div>
     </div>
     }
@@ -115,9 +132,7 @@
         GetElementSize:function(id){
             const e=document.getElementById(id);
             return [e.clientWidth,e.clientHeight];
-        },
-
-        
+        }
     };
 </script>
 

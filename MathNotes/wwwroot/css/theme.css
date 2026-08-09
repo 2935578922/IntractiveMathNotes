@@ -4,11 +4,20 @@
     font-weight:normal;
     font-style:normal;
 }
+@font-face {
+    font-family:"Cambria Math";
+    src:url("../font-1.ttf") format("truetype");
+    font-weight:normal;
+    font-style:normal;
+}
 
 body {
     background-color:#004d3d;
     color:#003328;
     font-family:Ubuntu;
+}
+math {
+    font-family:Cambria Math;
 }
 
 a {
