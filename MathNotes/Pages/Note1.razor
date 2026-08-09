@@ -106,12 +106,55 @@
             解:
             <div style="text-align:center;">
                 <math math xmlns="http://www.w3.org/1998/Math/MathML">
-                    <msup><mi>n</mi><mn>2</mn></msup><mo>-</mo><mn>an</mn><mo>+</mo><mn>b</mn><mo>=</mo><mn>0</mn>
+                    <msup><mi>n</mi><mn>2</mn></msup><mo>−</mo><mn>an</mn><mo>+</mo><mn>b</mn><mo>=</mo><mn>0</mn>
+                </math>
+            </div>
+            解得:
+            <div style="text-align:center; margin-bottom:4px;">
+                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                    <msub><mi>n</mi><mn>1</mn></msub>
+                    <mo>=</mo>
+                    <mfrac>
+                        <mrow>
+                            <mn>a</mn>
+                            <mo>+</mo>
+                            <msqrt>
+                                <msup><mi>a</mi><mn>2</mn></msup>
+                                <mo>−</mo>
+                                <mn>4b</mn>
+                            </msqrt>
+                        </mrow>
+                        <mn>2</mn>
+                    </mfrac>
                 </math>
             </div>
             <div style="text-align:center;">
-                x<sub>1</sub>=<input @bind-value="Page2n" type="text" class="input" style="text-align:center; margin-bottom:4px;" />,<br />
-                x<sub>2</sub>=<input @bind-value="Page2n" type="text" class="input" style="text-align:center;" />
+                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                    <msub><mi>n</mi><mn>2</mn></msub>
+                    <mo>=</mo>
+                    <mfrac>
+                        <mrow>
+                            <mn>a</mn>
+                            <mo>−</mo>
+                            <msqrt>
+                                <msup><mi>a</mi><mn>2</mn></msup>
+                                <mo>−</mo>
+                                <mn>4b</mn>
+                            </msqrt>
+                        </mrow>
+                        <mn>2</mn>
+                    </mfrac>
+                </math>
+            </div>
+            现在，让我们把n<sub>1</sub>带入n,n<sub>2</sub>带入m，看看(n+m)是否等于a,mn是否等于b。
+            <div style="text-align:center;">
+                <button @onclick="()=>Fold2.Show()" class="btn1">展开结果</button>
+                <div class="fold" style="wdith:@(Fold2.Width)px; height:@(Fold2.Height)px; overflow:@Fold2.OverflowStyle; text-align:left;">
+                    是的，<b>正是如此</b>，我们求到的n<sub>1</sub>和n<sub>2</sub>分别是分解x<sup>2</sup>+ax+b后的n和m，当然，
+                    如果你n<sub>1</sub>和n<sub>2</sub><b>的值反过来也没关系</b>，只要两个值<b>能合成a和b，就是分解后的结果</b><br />
+                    这就是十字相乘法因式分解的数学分解方法。<br />
+                    当然，此方法是否适用二次项系数非1的式子，还有待研究，目前只推荐枚举法来分解式子。
+                </div>
             </div>
         </div>
     </div>
@@ -152,6 +195,7 @@
 
 @code {
     FoldFrame Fold1=new FoldFrame(188,0,200);
+    FoldFrame Fold2=new FoldFrame(188,0,130);
 
     Formula1? Fml1;
 
