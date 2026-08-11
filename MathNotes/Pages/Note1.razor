@@ -296,18 +296,6 @@
             await Task.Delay(250);
             StateHasChanged();
             PaperControllerCanTouch=true;
-            string url=Nav.Uri;
-            Console.WriteLine(url);
-            for(int i=url.Length-1;i>=0;i-=1)
-            {
-                if(url[i]=='/')
-                {
-                    url=url.Substring(0,i+1);
-                    break;
-                }
-            }
-            Console.WriteLine(url);
-            Nav.NavigateTo(url);
         }
     }
 
@@ -326,6 +314,18 @@
         StateHasChanged();
         await Task.Delay(700);
         Nav.NavigateTo("../");
+        string url=Nav.Uri;
+        Console.WriteLine(url);
+        for(int i=url.Length-1;i>=0;i-=1)
+        {
+            if(url[i]=='/')
+            {
+                url=url.Substring(0,i+1);
+                break;
+            }
+        }
+        Console.WriteLine(url);
+        Nav.NavigateTo(url);
     }
 
     override protected async Task OnAfterRenderAsync(bool render)
