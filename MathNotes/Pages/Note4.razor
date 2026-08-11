@@ -245,6 +245,7 @@
             if(url[i]=='/')
             {
                 url=url.Substring(0,i+1);
+                break;
             }
         }
         Nav.NavigateTo(url);

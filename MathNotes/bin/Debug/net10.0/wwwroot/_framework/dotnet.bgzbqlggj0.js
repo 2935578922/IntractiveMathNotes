@@ -5,7 +5,7 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
   "mainAssemblyName": "MathNotes",
   "applicationEnvironment": "Development",
   "resources": {
-    "hash": "sha256-7+UShxl72TmmqZuUs2pO0wWFJP3BQ6MBqRsX6g6wmJM=",
+    "hash": "sha256-yEXwpTfhzLqfDIByJeiu8BcUMBbkuVviOvJqGVZsdbI=",
     "jsModuleNative": [
       {
         "name": "dotnet.native.rjbmzc4jpg.js"
@@ -1242,16 +1242,16 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
       },
       {
         "virtualPath": "MathNotes.wasm",
-        "name": "MathNotes.twjtb6lm0k.wasm",
-        "hash": "sha256-DZ1UHZXqT/Um6nWGEyGQEWf56UtZPHSKscBcd5PKWgg=",
+        "name": "MathNotes.zgzq839lji.wasm",
+        "hash": "sha256-7QWyExyssu3ZBhmCuNaFsVl4sXborDM3vShsHEiywCs=",
         "cache": "force-cache"
       }
     ],
     "pdb": [
       {
         "virtualPath": "MathNotes.pdb",
-        "name": "MathNotes.dosm7gc71k.pdb",
-        "hash": "sha256-rWEXLIFOagB3KJ6JX1rNd+Qx+At17D3WpOtq+N1SZ5w=",
+        "name": "MathNotes.c2u13xspw1.pdb",
+        "hash": "sha256-jKpEiLrz9TWGco2+E+4tRlFWv0RDbKbr1JbL5Vd6VL4=",
         "cache": "force-cache"
       }
     ],
