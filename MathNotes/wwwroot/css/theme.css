@@ -109,3 +109,9 @@ a:active {
 .content {
     font-size:12px;
 }
+
+.bookmark {
+    writing-mode:vertical-lr; 
+    text-orientation:mixed;
+    width:17px;
+}

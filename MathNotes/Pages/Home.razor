@@ -8,7 +8,7 @@
 <div class="paper" style="display:inline-block;
     left:50dvw; top:50dvh; 
     transform:translate(-50%,-50%) scale(@PaperScale);
-    animation:initializing 500ms ease forwards;">
+    @PaperInitializingAnimation">
     <div style="position:absolute; left:6px; top:-1px; width:@(TitleWidth)px; height:@(TitleHeight)px;
         @TitleInitializingAnimation
         background-color:#004D3D">
@@ -35,7 +35,8 @@
             <span style="display:inline-block; @ContentsInitializingAnimations[2]">
                 叁&ensp;&ensp;<a>「根式与运算」</a>
             </span><br />
-            <span style="display:inline-block; @ContentsInitializingAnimations[3]">
+            <span @onclick="()=>GoToNote(4)"
+              style="display:inline-block; @ContentsInitializingAnimations[3]">
                 肆&ensp;&ensp;<a>「二元二次方程组」</a>
             </span><br />
             <span style="display:inline-block; @ContentsInitializingAnimations[4]">
@@ -44,6 +45,7 @@
         </div>
     </div>
 </div>
+
 <script>
     window.jsf={
         GetWindowSize:function(){
@@ -81,6 +83,7 @@
 </style>
 
 @code {
+    public static string PaperInitializingAnimation="animation:initializing 500ms ease forwards;";
     public static double PaperScale=1;
     
     double TitleHeight=0;
@@ -129,7 +132,7 @@
         TitleInitializingAnimation="animation:initializing1 500ms ease forwards reverse;";
         StateHasChanged();
         await Task.Delay(500);
-        Nav.NavigateTo("./1");
+        Nav.NavigateTo($"./{id}");
     }
 
     override protected async Task OnAfterRenderAsync(bool render)
@@ -152,6 +155,7 @@
             StateHasChanged();
             await Task.Delay(500);
             TitleInitializingAnimation="animation:initializing1 500ms ease forwards;";
+            PaperInitializingAnimation="opacity:1; transform:translate(-50%,-50%) scale(@PaperScale);";
             StateHasChanged();
             await Task.Delay(250);
             TitleTextInitializingAnimation="animation:initializing1 250ms ease forwards;";

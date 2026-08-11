@@ -32,7 +32,8 @@
         }
     </style>
 </svg>
-<div style="position:relative; left:0px; top:-70px; text-align:center; transition:opacity 1s ease; opacity:@DivOpacity;">
+<div style="display:@DivDisplay; position:relative; left:0px; top:-70px; text-align:center; 
+  transition:opacity 1s ease; opacity:@DivOpacity;">
     最后的方程你发现了什么：<br />
     @if(Choose==0)
     {
@@ -75,6 +76,7 @@
     string SvgY="0px";
 
     string DivOpacity="0";
+    string DivDisplay="none";
 
     int Choose=0;
 
@@ -108,6 +110,7 @@
         StateHasChanged();
         await Task.Delay(1000);
         sub.opacity="1";
+        DivDisplay="block";
         StateHasChanged();
         await Task.Delay(1000);
         SvgY="-30px";

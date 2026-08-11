@@ -4,12 +4,20 @@
 @using System.Text
 @using formulas
 @inject IJSRuntime JS
+@inject NavigationManager Nav
+
 
 <div class="paper" style="display:inline-block;
   left:50dvw; top:50dvh;
   transform:translate(-50%,-50%) scale(@Home.PaperScale);">
     <div style="position:absolute; top:8px; left:8px;">
-        <div style="animation:initializing 500ms ease forwards;">十字相乘</div>
+        <div style="@TitleAnimation">十字相乘</div>
+    </div>
+    <div style="text-align:right;">
+        <button @onclick="BackToHome" class="btn1 bookmark" 
+          style="transition:opacity 250ms ease; opacity:@BackToHomeButtonOpacity;">
+            返回
+        </button>
     </div>
     @if(Page==1){
     <div style="position:absolute; top:28px; left:11px; @TextsAnimation">
@@ -199,7 +207,7 @@
 
     Formula1? Fml1;
 
-    int MaxPage=5;
+    int MaxPage=4;
     int Page=1;
     int MinPage=1;
 
@@ -237,7 +245,9 @@
     HtmlFormula Formula2=new HtmlFormula();
     HtmlFormula Formula3=new HtmlFormula();
 
+    string TitleAnimation="animation:initializing 500ms ease forwards;";
     string TextsAnimation="opacity:0;";
+    string BackToHomeButtonOpacity="0";
 
     bool PaperControllerCanTouch=true;
 
@@ -250,10 +260,6 @@
     {
         int[] ElementSize=await JS.InvokeAsync<int[]>("jsf.GetElementSize",id);
         return ElementSize;
-    }
-    async Task RunManim1()
-    {
-        //await JS.InvokeVoidAsync("jsf.RunManim1");
     }
 
     async Task NextPage()
@@ -293,6 +299,23 @@
         }
     }
 
+    async Task BackToHome()
+    {
+        BackToHomeButtonOpacity="0";
+        PaperControllerCanTouch=false;
+        TextsAnimation="opacity:1; transform:translate(0px);";
+        StateHasChanged();
+        await Task.Delay(250);
+        TextsAnimation="animation:initializing 250ms ease forwards reverse;";
+        TitleAnimation="opacity:1; transform:translate(0px);";
+        StateHasChanged();
+        await Task.Delay(250);
+        TitleAnimation="animation:initializing 500ms ease forwards reverse;";
+        StateHasChanged();
+        await Task.Delay(700);
+        Nav.NavigateTo("../");
+    }
+
     override protected async Task OnAfterRenderAsync(bool render)
     {
         if(render)
@@ -312,6 +335,7 @@
             StateHasChanged();
             await Task.Delay(250);
             TextsAnimation="animation:initializing 500ms ease forwards;";
+            BackToHomeButtonOpacity="1";
             StateHasChanged();
         }
     }
