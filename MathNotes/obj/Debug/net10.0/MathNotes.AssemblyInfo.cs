@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MathNotes")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+53c11dd3187aa3455ef9186a6e34ce3abe2aa431")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8fc7fd846a2fdc4c94d8109a2cddaeb8234db303")]
 [assembly: System.Reflection.AssemblyProductAttribute("MathNotes")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MathNotes")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
