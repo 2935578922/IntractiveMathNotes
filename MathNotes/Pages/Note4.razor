@@ -111,7 +111,9 @@
                 <mo>(</mo><mn>−1</mn><mo>,</mo><mn>3</mn><mo>)</mo>
                 <mo>}</mo>
             </math>
-            
+            这就是二元二次方程组的最常用解法<b>代入法</b>。
+            让我们来看个稍微难些的方程组:
+
         </div>
     </div>
     }
@@ -237,7 +239,15 @@
         TitleAnimation="animation:initializing 500ms ease forwards reverse;";
         StateHasChanged();
         await Task.Delay(700);
-        Nav.NavigateTo("../");
+        string url=Nav.Uri;
+        for(int i=url.Length-1;i>=0;i-=1)
+        {
+            if(url[i]=='/')
+            {
+                url=url.Substring(0,i+1);
+            }
+        }
+        Nav.NavigateTo(url);
     }
 
     override protected async Task OnAfterRenderAsync(bool render)
