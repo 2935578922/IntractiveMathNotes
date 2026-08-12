@@ -33,8 +33,12 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/admin/OneDrive/桌面/IntractiveMathNotes/MathNotes/Pages/formulas/Formula1.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcZm9ybXVsYXNcRm9ybXVsYTEucmF6b3I=
+[C:/Users/admin/OneDrive/桌面/IntractiveMathNotes/MathNotes/Pages/Formulas/Formula1.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRm9ybXVsYXNcRm9ybXVsYTEucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/OneDrive/桌面/IntractiveMathNotes/MathNotes/Pages/FuncImg/FunctionImage1.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRnVuY0ltZ1xGdW5jdGlvbkltYWdlMS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/admin/OneDrive/桌面/IntractiveMathNotes/MathNotes/Pages/Home.razor]
@@ -51,6 +55,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/admin/OneDrive/桌面/IntractiveMathNotes/MathNotes/Pages/NotFound.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTm90Rm91bmQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/OneDrive/桌面/IntractiveMathNotes/MathNotes/Pages/Test.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVzdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/admin/OneDrive/桌面/IntractiveMathNotes/MathNotes/_Imports.razor]

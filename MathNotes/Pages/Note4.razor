@@ -1,10 +1,10 @@
 @page "/4"
-@using MathNotes.Pages.formulas
+@using MathNotes.Pages.FuncImg
+@using MathNotes.Pages.Formulas
 @using Microsoft.AspNetCore.Components.Sections
 @using System.Text
 @inject IJSRuntime JS
 @inject NavigationManager Nav
-
 
 <div class="paper" style="display:inline-block;
   left:50dvw; top:50dvh;
@@ -112,8 +112,39 @@
                 <mo>}</mo>
             </math>
             这就是二元二次方程组的最常用解法<b>代入法</b>。
-            让我们来看个稍微难些的方程组:
-
+            但，这里还有一个方式来帮你<b>在解方程组前</b>获取方程组的根的<b>象限</b>和数量。<br />
+            那就是通过<b>函数图像</b>的力量!
+            还是刚刚的方程组，我们来验验根的数量和分布:(圆是<b>1式</b>,直线是<b>2式</b>)
+            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                <mrow>
+                    <mo>{</mo>
+                    <mtable>
+                        <mtr>
+                            <mtd>
+                                <mn>3</mn><mi>x</mi>
+                                <mo>+</mo>
+                                <mi>y</mi>
+                                <mo>=</mo>
+                                <mn>0</mn>
+                                <mo>|</mo>
+                                <mn>1</mn>
+                            </mtd>
+                        </mtr>
+                        <mtr>
+                            <mtd>
+                                <msup><mi>x</mi><mn>2</mn></msup>
+                                <mo>+</mo>
+                                <msup><mi>y</mi><mn>2</mn></msup>
+                                <mo>=</mo>
+                                <mn>10</mn>
+                                <mo>|</mo>
+                                <mn>2</mn>
+                            </mtd>
+                        </mtr>
+                    </mtable>
+                </mrow>
+            </math>
+            <FunctionImage1></FunctionImage1>
         </div>
     </div>
     }

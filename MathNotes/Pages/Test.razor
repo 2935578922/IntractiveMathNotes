@@ -1,0 +1,35 @@
+@page "/plot-svg"
+
+<h3>函数图像: y = sin(x)</h3>
+
+<svg width="600" height="400" viewBox="0 0 600 400">
+    <!-- 坐标轴 -->
+    <line x1="50" y1="20" x2="50" y2="380" stroke="black" stroke-width="2" />
+    <line x1="50" y1="200" x2="580" y2="200" stroke="black" stroke-width="2" />
+    
+    <!-- 绘制函数曲线 -->
+    <polyline points="@GetPoints()" 
+              stroke="blue" 
+              stroke-width="2" 
+              fill="none" />
+</svg>
+
+@code {
+    private string GetPoints()
+    {
+        var points = new List<string>();
+        for (int x = 0; x <= 500; x += 2)
+        {
+            // 将像素坐标映射到数学坐标
+            double mathX = (x - 50) / 100.0 * 4 - 2; // 范围 -2 到 2
+            double mathY = Math.Sin(mathX);
+            
+            // 转换回像素坐标
+            int pixelX = 50 + (int)((mathX + 2) / 4 * 500);
+            int pixelY = 200 - (int)(mathY * 100);
+            
+            points.Add($"{pixelX},{pixelY}");
+        }
+        return string.Join(" ", points);
+    }
+}
