@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg width="188" height="100" version="1.1" viewBox="0 0 49.741666 26.458333" xmlns="http://www.w3.org/2000/svg"
+    style="position:relative; left:@SvgX; top:@SvgY; transition:left 1s ease,top 1s ease;">
+    <text transform="translate(@n0.x,@n0.y)" style="font-size:4.23333px;stroke-width:.352778" xml:space="preserve">
+        <tspan style="fill:#003328;font-family:'Cambria Math';font-size:3.72533px;stroke-width:.352778">n</tspan></text>
+    <text transform="translate(@nSqr2.x,@nSqr2.y)" style="opacity:@(nSqr2.opacity); font-size:4.23333px;stroke-width:.352778" xml:space="preserve">
+        <tspan style="fill:#003328;font-family:'Cambria Math';font-size:2.667px;stroke-width:.352778">2</tspan></text>
+    <text transform="translate(@add.x,@add.y)" style="font-size:4.23333px;stroke-width:.352778" xml:space="preserve">
+        <tspan style="fill:#003328;font-family:'Cambria Math';font-size:3.72533px;stroke-width:.352778">+</tspan></text>
+    <text transform="translate(@b.x,@b.y)" style="font-size:4.23333px;stroke-width:.352778" xml:space="preserve">
+        <tspan style="fill:#003328;font-family:'Cambria Math';font-size:3.72533px;stroke-width:.352778">b</tspan></text>
+    <text transform="translate(@n1.x,@n1.y)" style="opacity:@n1.opacity; font-size:4.23333px;stroke-width:.352778" xml:space="preserve">
+        <tspan style="fill:#003328;font-family:'Cambria Math';font-size:3.72533px;stroke-width:.352778">n</tspan></text>
+    <text transform="translate(@n2.x,@n2.y)" style="font-size:4.23333px;stroke-width:.352778" xml:space="preserve">
+        <tspan style="fill:#003328;font-family:'Cambria Math';font-size:3.72533px;stroke-width:.352778">n</tspan></text>
+    <path d="m@(Line.x) @(Line.y)h2.074333v-.254h-2.074333z" style="opacity:@(Line.opacity); fill-rule:evenodd;fill:#003328"/>
+    <text transform="translate(@Eql.x,@Eql.y)" style="font-size:4.23333px;stroke-width:.352778" xml:space="preserve">
+        <tspan style="fill:#003328;font-family:'Cambria Math';font-size:3.72533px;stroke-width:.352778">=</tspan></text>
+    <text transform="translate(@a.x,@a.y)" style="font-size:4.23333px;stroke-width:.352778" xml:space="preserve">
+        <tspan style="fill:#003328;font-family:'Cambria Math';font-size:3.72533px;stroke-width:.352778">a</tspan></text>
+    <text transform="translate(@sub.x,@sub.y)" style="opacity:@(sub.opacity); font-size:4.23333px;stroke-width:.352778" xml:space="preserve">
+        <tspan style="fill:#003328;font-family:'Cambria Math';font-size:3.72533px;stroke-width:.352778">−</tspan></text>
+    <text transform="translate(@num0.x,@num0.y)" style="opacity:@(num0.opacity); font-size:4.23333px;stroke-width:.352778" xml:space="preserve">
+        <tspan style="fill:#003328;font-family:'Cambria Math';font-size:3.72533px;stroke-width:.352778">0</tspan></text>  
+    <style>
+        text {
+            transition:all 1s ease;
+        }
+        path {
+            transition:all 1s ease;
+        }
+    </style>
+</svg>
+<div style="display:@DivDisplay; position:relative; left:0px; top:-70px; text-align:center; 
+  transition:opacity 1s ease; opacity:@DivOpacity;">
+    最后的方程你发现了什么：<br />
+    @if(Choose==0)
+    {
+        <div>
+            <button @onclick="Choose1" class="btn1" style="margin-bottom:4px;">没有</button><br />
+            <button @onclick="Choose2" class="btn1">这好像和x<sup>2</sup>+ax+b很像？</button>
+        </div>
+    }
+    else if(Choose==1)
+    {
+        <div>
+            我把n换成x得：x<sup>2</sup>-ax+b=0<br />
+            对比一下需要分解的式子：x<sup>2</sup>+ax+b<br />
+            是不是很像？
+            那我们看看解n<sup>2</sup>-an+b=0看看会得到什么。
+        </div>
+    }
+    else
+    {
+        <div>
+            正是如此，我们试试解开这个方程看看会得到什么。
+        </div>
+    }
+</div>
+
+@code {
+    SvgObject n0=new SvgObject("17.192984","14.7");
+    SvgObject nSqr2=new SvgObject("17.467215","13.345333","0");
+    SvgObject n1=new SvgObject("23.669985","17.197668");
+    SvgObject n2=new SvgObject("23.669985","17.197668");
+    SvgObject add=new SvgObject("20.07165","14.7");
+    SvgObject b=new SvgObject("23.669985","11.863667");
+    SvgObject Line=new SvgObject("23.669979","13.768692");
+    SvgObject Eql=new SvgObject("26.760317","14.7");
+    SvgObject a=new SvgObject("30.577372","14.7");
+    SvgObject sub=new SvgObject("16.8081","14.7","0");
+    SvgObject num0=new SvgObject("35.526485","14.7","0");
+
+    string SvgX="0px";
+    string SvgY="0px";
+
+    string DivOpacity="0";
+    string DivDisplay="none";
+
+    int Choose=0;
+
+    public async Task RunTransform()
+    {
+        n0.x="15.392881";
+        n1.x=n0.x;
+        n1.y=n0.y;
+        n1.opacity="0";
+        n2.x="32.249649";
+        n2.y=n0.y;
+        b.x="23.563215";
+        b.y="14.7";
+        Line.opacity="0";
+        add.x="19.964882";
+        Eql.x="26.611216";
+        a.x="30.428268";
+        StateHasChanged();
+        await Task.Delay(1000);
+        nSqr2.opacity="1";
+        StateHasChanged();
+        await Task.Delay(1000);
+        n0.x="12.2361";
+        nSqr2.x="14.310433";
+        a.x="20.406431";
+        n2.x="22.22781";
+        add.x="25.105433";
+        b.x="28.703764";
+        Eql.x="31.758818";
+        num0.opacity="1";
+        StateHasChanged();
+        await Task.Delay(1000);
+        sub.opacity="1";
+        DivDisplay="block";
+        StateHasChanged();
+        await Task.Delay(1000);
+        SvgY="-30px";
+        DivOpacity="1";
+        StateHasChanged();
+    }
+
+    private void Choose1()
+    {
+        Choose=1;
+    }
+    private void Choose2()
+    {
+        Choose=2;
+    }
+
+    struct SvgObject 
+    {
+        public string x;
+        public string y;
+        public string opacity;
+        public SvgObject(string x1="0",string y1="0",string op="1")
+        {
+            x=x1;
+            y=y1;
+            opacity=op;
+        }
+    }
+}
