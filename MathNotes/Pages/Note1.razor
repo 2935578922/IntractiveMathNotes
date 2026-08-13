@@ -1,0 +1,409 @@
+@page "/1"
+@using MathNotes.Pages.Formulas
+@using Microsoft.AspNetCore.Components.Sections
+@using System.Text
+@inject IJSRuntime JS
+@inject NavigationManager Nav
+
+
+<div class="paper" style="display:inline-block;
+  left:50dvw; top:50dvh;
+  transform:translate(-50%,-50%) scale(@Home.PaperScale);">
+    <div style="position:absolute; top:8px; left:8px;">
+        <div style="@TitleAnimation">十字相乘</div>
+    </div>
+    <div style="text-align:right;">
+        <button @onclick="BackToHome" class="btn1 bookmark" 
+          style="transition:opacity 250ms ease; opacity:@BackToHomeButtonOpacity;">
+            返回
+        </button>
+    </div>
+    @if(Page==1){
+    <div style="position:absolute; top:28px; left:11px; @TextsAnimation">
+        <div style="font-size:8px; width:188px;">
+            十字相乘法，一种用于<b>因式分解二次三项式</b>的方法，常用于解方程。<br />
+            然而为何称为<b>十字</b>?<br />
+            <div style="text-align:center;">
+                <button @onclick="()=>Fold1.Show()" class="btn1">为什么</button>
+            </div>
+            <div class="fold" style="wdith:@(Fold1.Width)px; height:@(Fold1.Height)px; overflow:@Fold1.OverflowStyle;">
+                <div style="text-align:center;">
+                    <img src="./1/2.svg" />
+                </div>
+                图示为
+                <math math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <mo>(</mo><mn>x</mn><mo>+</mo><mn>n</mn><mo>)</mo><mo>(</mo><mn>x</mn><mo>+</mo><mn>m</mn><mo>)</mo>
+                    <mo>=</mo>
+                    <msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><mo>(</mo><mn>n</mn><mo>+</mo><mn>m</mn><mo>)</mo><mn>x</mn><mo>+</mo><mn>nm</mn>
+                </math>
+                的十字相乘法，其中可以看到<b>有个十字×</b>，这正是十字相乘法的<b>名字来源</b>。<br />
+                其中<b>左右两侧</b>的x和x相乘，n和m相乘，得到了式子中的<b>第1项和第3项</b>，而中间则是十字<b>两线分别两端相乘
+                积的和</b>得到了<b>第二项</b>，合并就是(n+m)x。最后全部相加，就是上方的式子。
+            </div>
+        </div>
+    </div>
+    }
+    else if(Page==2){
+    <div style="position:absolute; top:28px; left:11px; @TextsAnimation">
+        <div style="font-size:8px; width:188px;">
+            然而，十字相乘法怎么分解式子呢，让我们来看看。你可以点输入框进行尝试<br />
+            <div style="text-align:center;">
+                <img src="./1/1.svg" style="height:150px;"/>
+                <input @bind-value="Page2n" type="text" class="input" style="position:absolute; right:40px; top:47px; text-align:center;" />
+                <input @bind-value="Page2m" type="text" class="input" style="position:absolute; right:40px; bottom:23px; text-align:center;" />
+                <span style="position:absolute; right:30px; top:93px;">@(Page2n*Page2m)</span>
+                <span style="position:absolute; left:30px; top:93px;">x<sup>2</sup></span>
+                <div style="position:absolute; transform:translate(-50%); bottom:-17px; left:50%; ">
+                    <div>
+                        1:&ensp;@Formula1.OutputFormula
+                    </div>
+                    <div>
+                        2:&ensp;@Formula2.OutputFormula
+                    </div>
+                    <div>
+                        3:&ensp;@Formula3.OutputFormula
+                    </div>
+                </div>
+            </div>
+            <div style="position:absolute; bottom:-67px; height:50px; ">
+                经过数次尝试，可以发现，我们要把2式的第2项进行拆解，最后相乘，结果如果等于第3项，才是最后分解出来的结果。
+                在<b>解方程时</b>，可以分解为整数的式子可以通过<b>尝试</b>和<b>直觉</b>快速分解。然而有时只是分解式子时，
+                <b>数字很大</b>或实际<b>最终结果非整数</b>时，[下一页]
+            </div>
+        </div>
+    </div>
+    }
+    else if(Page==3){
+    <div style="position:absolute; top:28px; left:11px; @TextsAnimation">
+        <div style="font-size:8px; width:188px; height:258px;">
+            我们就只能换种分解方法了。让我们看看怎么用<b>数学的方法</b>分解。
+            既然
+            <div style="text-align:center;">
+                <math math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <mo>(</mo><mn>x</mn><mo>+</mo><mn>n</mn><mo>)</mo><mo>(</mo><mn>x</mn><mo>+</mo><mn>m</mn><mo>)</mo>
+                    <mo>=</mo>
+                    <msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><mo>(</mo><mn>n</mn><mo>+</mo><mn>m</mn><mo>)</mo><mn>x</mn><mo>+</mo><mn>nm</mn>
+                </math>
+            </div>
+            我们设n+m=a, nm=b来表示(x+n)(x+m)<b>被分解前的式子的样子</b>：
+            <div style="text-align:center;">
+                <math math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><mn>ax</mn><mo>+</mo><mn>b</mn>
+                </math>
+            </div>
+            我们可以设一个n，其中n为<b>分解后的两个数之一</b>，既然两数相乘为b，那么另一个数的就是
+            <math>
+                <mfrac><mn>b</mn><mn>n</mn></mfrac>
+            </math>。<br />
+            然后由于<b>a由这两数相加得到</b>，最后我们可以得到一个等量关系式：
+            <div style="text-align:center;">
+                <math>
+                    <mn>n</mn><mo>+</mo><mfrac><mn>b</mn><mn>n</mn></mfrac><mo>=</mo><mn>a</mn>
+                </math>
+            </div>
+            <button @onclick="()=>Fml1?.RunTransform()" class="btn1">变换一下</button>
+            <Formula1 @ref="Fml1"></Formula1>
+        </div>
+    </div>
+    }
+    else if(Page==4)
+    {
+    <div style="position:absolute; top:28px; left:11px; @TextsAnimation">
+        <div style="font-size:8px; width:188px;">
+            解:
+            <div style="text-align:center;">
+                <math math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <msup><mi>n</mi><mn>2</mn></msup><mo>−</mo><mn>an</mn><mo>+</mo><mn>b</mn><mo>=</mo><mn>0</mn>
+                </math>
+            </div>
+            解得:
+            <div style="text-align:center; margin-bottom:4px;">
+                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                    <msub><mi>n</mi><mn>1</mn></msub>
+                    <mo>=</mo>
+                    <mfrac>
+                        <mrow>
+                            <mn>a</mn>
+                            <mo>+</mo>
+                            <msqrt>
+                                <msup><mi>a</mi><mn>2</mn></msup>
+                                <mo>−</mo>
+                                <mn>4b</mn>
+                            </msqrt>
+                        </mrow>
+                        <mn>2</mn>
+                    </mfrac>
+                </math>
+            </div>
+            <div style="text-align:center;">
+                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                    <msub><mi>n</mi><mn>2</mn></msub>
+                    <mo>=</mo>
+                    <mfrac>
+                        <mrow>
+                            <mn>a</mn>
+                            <mo>−</mo>
+                            <msqrt>
+                                <msup><mi>a</mi><mn>2</mn></msup>
+                                <mo>−</mo>
+                                <mn>4b</mn>
+                            </msqrt>
+                        </mrow>
+                        <mn>2</mn>
+                    </mfrac>
+                </math>
+            </div>
+            现在，让我们把n<sub>1</sub>带入n,n<sub>2</sub>带入m，看看(n+m)是否等于a,mn是否等于b。
+            <div style="text-align:center;">
+                <button @onclick="()=>Fold2.Show()" class="btn1">展开结果</button>
+                <div class="fold" style="wdith:@(Fold2.Width)px; height:@(Fold2.Height)px; overflow:@Fold2.OverflowStyle; text-align:left;">
+                    是的，<b>正是如此</b>，我们求到的n<sub>1</sub>和n<sub>2</sub>分别是分解x<sup>2</sup>+ax+b后的n和m，当然，
+                    如果你n<sub>1</sub>和n<sub>2</sub><b>的值反过来也没关系</b>，只要两个值<b>能合成a和b，就是分解后的结果</b><br />
+                    这就是十字相乘法因式分解的数学分解方法。<br />
+                    当然，此方法是否适用二次项系数非1的式子，还有待研究，目前只推荐枚举法来分解式子。
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    <div style="position:absolute; left:50%; bottom:0.75px; transform:translate(-50%,0%);">
+        <button @onclick="BackPage" class="btn1" style="padding:0px 2px;">←</button>
+        <span style="width:8px; font-size:7px;">@Page</span>
+        <button @onclick="NextPage" class="btn1" style="padding:0px 2px;">→</button>
+    </div>
+</div>
+
+<script>
+    window.jsf={
+        GetWindowSize:function(){
+            return [window.innerWidth,window.innerHeight];
+        },
+
+        GetElementSize:function(id){
+            const e=document.getElementById(id);
+            return [e.clientWidth,e.clientHeight];
+        }
+    };
+</script>
+
+
+<style>
+    @@keyframes initializing {
+        from {
+            opacity:0;
+            transform:translate(10px);
+        }
+        to {
+            opacity:1;
+            transform:translate(0px);
+        }
+    }
+</style>
+
+@code {
+    FoldFrame Fold1=new FoldFrame(188,0,200);
+    FoldFrame Fold2=new FoldFrame(188,0,130);
+
+    Formula1? Fml1;
+
+    int MaxPage=4;
+    int Page=1;
+    int MinPage=1;
+
+    int Page2nValue=0;
+    int Page2n
+    {
+        get
+        {
+            return Page2nValue;
+        }
+        set
+        {
+            Page2nValue=value;
+            Formula1.InputFormula=$"x<sup>2</sup>+({Page2nValue}+{Page2mValue})x+{Page2nValue*Page2mValue}";
+            Formula2.InputFormula=$"x<sup>2</sup>+{Page2n+Page2m}x+{Page2n*Page2m}";
+            Formula3.InputFormula=$"(x+{Page2n})(x+{Page2m})";
+        }
+    }
+    int Page2mValue=0;
+    int Page2m
+    {
+        get
+        {
+            return Page2mValue;
+        }
+        set
+        {
+            Page2mValue=value;
+            Formula1.InputFormula=$"x<sup>2</sup>+({Page2nValue}+{Page2mValue})x+{Page2nValue*Page2mValue}";
+            Formula2.InputFormula=$"x<sup>2</sup>+{Page2n+Page2m}x+{Page2n*Page2m}";
+            Formula3.InputFormula=$"(x+{Page2n})(x+{Page2m})";
+        }
+    }
+    HtmlFormula Formula1=new HtmlFormula();
+    HtmlFormula Formula2=new HtmlFormula();
+    HtmlFormula Formula3=new HtmlFormula();
+
+    string TitleAnimation="animation:initializing 500ms ease forwards;";
+    string TextsAnimation="opacity:0;";
+    string BackToHomeButtonOpacity="0";
+
+    bool PaperControllerCanTouch=true;
+
+    async Task<int[]> GetWindowSize()
+    {
+        int[] WindowSize=await JS.InvokeAsync<int[]>("jsf.GetWindowSize");
+        return WindowSize;
+    } 
+    async Task<int[]> GetElementSize(string id)
+    {
+        int[] ElementSize=await JS.InvokeAsync<int[]>("jsf.GetElementSize",id);
+        return ElementSize;
+    }
+
+    async Task NextPage()
+    {
+        if(Page<MaxPage && PaperControllerCanTouch)
+        {
+            PaperControllerCanTouch=false;
+            TextsAnimation="opacity:1; transform:translate(0px);";
+            StateHasChanged();
+            await Task.Delay(250);
+            TextsAnimation="animation:initializing 250ms ease forwards reverse;";
+            StateHasChanged();
+            await Task.Delay(250);
+            Page+=1;
+            TextsAnimation="animation:initializing 250ms ease forwards;";
+            await Task.Delay(250);
+            StateHasChanged();
+            PaperControllerCanTouch=true;
+        }
+    }
+    async Task BackPage()
+    {
+        if(Page>MinPage && PaperControllerCanTouch)
+        {
+            PaperControllerCanTouch=false;
+            TextsAnimation="opacity:1; transform:translate(0px);";
+            StateHasChanged();
+            await Task.Delay(250);
+            TextsAnimation="animation:initializing 250ms ease forwards reverse;";
+            StateHasChanged();
+            await Task.Delay(250);
+            Page-=1;
+            TextsAnimation="animation:initializing 250ms ease forwards;";
+            await Task.Delay(250);
+            StateHasChanged();
+            PaperControllerCanTouch=true;
+        }
+    }
+
+    async Task BackToHome()
+    {
+        BackToHomeButtonOpacity="0";
+        PaperControllerCanTouch=false;
+        TextsAnimation="opacity:1; transform:translate(0px);";
+        StateHasChanged();
+        await Task.Delay(250);
+        TextsAnimation="animation:initializing 250ms ease forwards reverse;";
+        TitleAnimation="opacity:1; transform:translate(0px);";
+        StateHasChanged();
+        await Task.Delay(250);
+        TitleAnimation="animation:initializing 500ms ease forwards reverse;";
+        StateHasChanged();
+        await Task.Delay(700);
+        string url=Nav.Uri;
+        Console.WriteLine(url);
+        for(int i=url.Length-1;i>=0;i-=1)
+        {
+            if(url[i]=='/')
+            {
+                url=url.Substring(0,i+1);
+                break;
+            }
+        }
+        Console.WriteLine(url);
+        Nav.NavigateTo(url);
+    }
+
+    override protected async Task OnAfterRenderAsync(bool render)
+    {
+        if(render)
+        {
+            Page2n=-1;
+            Page2m=-4;
+            FoldFrame.StateChangedEvent+=StateHasChanged;
+            int[] WindowSize=await GetWindowSize();
+            Home.PaperScale=(double)WindowSize[1]/297;
+            if(Home.PaperScale*210>WindowSize[0])
+            {
+                int TempPaperWidth=WindowSize[0];
+                double TempPaperHeight=297.0/210*TempPaperWidth;
+                Home.PaperScale=WindowSize[1]/TempPaperHeight;
+            }
+            Home.PaperScale*=0.9;
+            StateHasChanged();
+            await Task.Delay(250);
+            TextsAnimation="animation:initializing 500ms ease forwards;";
+            BackToHomeButtonOpacity="1";
+            StateHasChanged();
+        }
+    }
+
+    public async Task DisposeAsync()
+    {
+        
+    }
+
+    class FoldFrame
+    {
+        public static event Action? StateChangedEvent;
+
+        public int Width;
+        public int Height;
+
+        public string OverflowStyle="hidden";
+        
+        private int EndHeight;
+
+        private void ChangeState()=>StateChangedEvent?.Invoke();
+
+        public FoldFrame(int width=0,int height=0,int endheight=0)
+        {
+            Width=width;
+            Height=height;
+            EndHeight=endheight;
+        }
+
+        public void Show()
+        {
+            Height=EndHeight;
+            OverflowStyle="auto";
+            ChangeState();
+        }
+    }
+
+    class HtmlFormula 
+    {
+        public MarkupString OutputFormula=(MarkupString)"";
+
+        public string InputFormula
+        {
+            get 
+            {
+                return "";
+            }
+            set
+            {
+                string temp=value;
+                temp=temp.Replace("+-","-");
+                OutputFormula=(MarkupString)temp;
+            }
+        }
+
+        public HtmlFormula()
+        {
+
+        }
+    }
+}

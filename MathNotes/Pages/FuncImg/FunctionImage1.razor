@@ -1,0 +1,45 @@
+<div style="text-align:center;">
+    <svg width="150" height="150" version="1.1" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+        <path d="m133.33333 74.999999h-116.666664" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <path d="m75 16.666666v116.666664" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <path d="m72.083333 64.999999h5.833335" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <path d="m85 72.083333v5.833335" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <path d="m95 72.083333v5.833335" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <path d="m105 72.083333v5.833335" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <path d="m114.99999 72.083333v5.833335" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <path d="m125 72.083333v5.833335" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <path d="m72.083333 54.999999h5.833335" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <path d="m72.083333 45.000001h5.833335" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <path d="m72.083333 35h5.833335" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <path d="m72.083333 24.999999h5.833335" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <path d="m65 77.916668v-5.833335" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <path d="m55 77.916668v-5.833335" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <path d="m45.000002 77.916668v-5.833335" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <path d="m35.000002 77.916668v-5.833335" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <path d="m24.999999 77.916668v-5.833335" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <path d="m72.083333 125h5.833335" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <path d="m72.083333 114.99999h5.833335" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <path d="m72.083333 105h5.833335" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <path d="m72.083333 95h5.833335" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <path d="m72.083333 84.999999h5.833335" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <path d="M 69.107444,22.559223 75,16.666666 l 5.892556,5.892557" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <path d="m127.44077 69.107449 5.89256 5.89255-5.89256 5.89256" style="fill:none;stroke-width:2;stroke:#004d3d"/>
+        <circle cx="75" cy="75" r="@r" style="fill:none;stroke-width:1;stroke:#003328"/>
+        <polyline points="@Function1()" style="fill:none;stroke-width:1;stroke:#003328"/>
+    </svg>
+</div>
+
+@code {
+    string points="";
+    double r=Math.Sqrt(10)*10;
+    string Function1()
+    {
+        for (int x=-15;x<=15;x+=1)
+        {
+            double mx=x+75;
+            double my=75-(-3.0*x);
+            points=points+$"{mx},{my} ";
+        }
+        return points;
+    }
+}
